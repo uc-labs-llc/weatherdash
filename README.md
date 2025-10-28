@@ -1,3 +1,7 @@
+![Main application dashboard screenshot](images/dashboard.png)
+
+
+
 🌎 The Terrestrial & Celestial Nexus Dashboard
 
 1. Project Overview: The All-In-One Environmental Monitor
