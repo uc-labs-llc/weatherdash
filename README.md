@@ -1,9 +1,5 @@
 ![Main application dashboard screenshot](images/dashboard.png)
 
-### 🔊 Listen to the Weather Sample
-
-
-[**Click Here to Hear the Voice Sample**](https://raw.githubusercontent.com/uc-labs-llc/weatherdash/main/weather.m4a)
 
 🌎 The Terrestrial & Celestial Nexus Dashboard
 
