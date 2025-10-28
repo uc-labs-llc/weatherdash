@@ -1,6 +1,8 @@
 ![Main application dashboard screenshot](images/dashboard.png)
 
+### 🔊 Listen to the Weather Sample
 
+[**Click Here to Hear the Voice Sample**](weather.m4a)
 
 🌎 The Terrestrial & Celestial Nexus Dashboard
 
