@@ -1,6 +1,8 @@
 ![Main application dashboard screenshot](images/dashboard.png)
 
-
+<video controls src="https://raw.githubusercontent.com/uc-labs-llc/weatherdash/main/weatherdash.mp4">
+  Your browser does not support the audio element.
+</video>
 🌎 The Terrestrial & Celestial Nexus Dashboard
 
 1. Project Overview: The All-In-One Environmental Monitor
