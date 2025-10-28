@@ -1,0 +1,167 @@
+/* --- Base Styles: Inherited from moontracker.css Theme --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Deep space background: #1a1a2e to #16213e */
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    color: #e8eaf6; /* Light gray text */
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+h1 {
+    color: #7fffd4; /* Light mint/teal */
+    text-align: center;
+    margin-bottom: 5px;
+    font-weight: 300;
+}
+
+h2 {
+    color: #a8dadc; /* Light cyan */
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+    font-weight: 400;
+    text-align: left;
+    border-bottom: 1px solid #3a5068; /* Light divider */
+    padding-bottom: 5px;
+}
+
+/* --- Main Container Styling (Based on #info or .details-container) --- */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    /* Dark blue box style */
+    background: rgba(10, 20, 50, 0.85); 
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid #4a69bd; /* Blue border */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Table Styling (Current Entries) --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th {
+    background-color: #1c2e40; /* Dark header background */
+    color: #90caf9; /* Light blue header text */
+    padding: 12px 8px;
+    text-align: left;
+    border-bottom: 2px solid #4a69bd;
+}
+
+td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #3a5068; /* Subtle row separation */
+    color: #e6f7ff;
+    vertical-align: top;
+}
+
+/* Hover effect for rows */
+tbody tr:hover {
+    background-color: rgba(74, 105, 189, 0.1); /* Light blue hover effect */
+}
+
+/* Action Links */
+td a {
+    color: #82b1ff; /* Light blue link color */
+    text-decoration: none;
+    margin-right: 10px;
+    transition: color 0.3s;
+}
+
+td a:hover {
+    color: #7fffd4; /* Mint/teal hover */
+}
+
+/* --- Form Styling (Add/Edit Entry) --- */
+form {
+    background-color: #1c2e40; /* Slightly darker background for the form area */
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid #3a5068;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #a8dadc; /* Light cyan label color */
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #4a69bd;
+    border-radius: 4px;
+    background-color: #0d172a; /* Very dark input background */
+    color: #e8eaf6;
+    font-size: 1em;
+}
+
+/* Highlight readonly field for 'Page Key' during editing */
+.form-group input[readonly] {
+    background-color: #2b3a50; /* Slightly different background for readonly */
+    opacity: 0.8;
+}
+
+/* --- Button Styling --- */
+button[type="submit"] {
+    background-color: #7fffd4; /* Mint/teal primary action color */
+    color: #1a1a2e; /* Dark text for contrast */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #a8dadc; /* Lighter cyan hover */
+}
+
+form a {
+    color: #82b1ff;
+    text-decoration: none;
+    margin-left: 15px;
+    line-height: 40px; /* Align with button height */
+}
+
+/* --- Message Styling (Success/Error) --- */
+.message {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.success {
+    /* Greenish success from the theme */
+    background-color: rgba(127, 255, 212, 0.15); 
+    color: #7fffd4; 
+    border: 1px solid #7fffd4;
+}
+
+.error {
+    /* Reddish error from a dark theme */
+    background-color: rgba(255, 138, 128, 0.15); 
+    color: #ff8a80; 
+    border: 1px solid #ff8a80;
+}

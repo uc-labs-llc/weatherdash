@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los Ebanos Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.45/moment-timezone-with-data.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.9.0/suncalc.min.js"></script>
+
+</head>
+<body>
+	<div class="container">
+
+<div class="sidebar">
+  <img src="images/notb.png" alt="Logo" class="sidebar-logo">
+  <a href="index.html" class="nav-item" data-page="home">
+    <span>HOME</span>
+  </a>
+  <a href="con-sites.html" class="nav-item" data-page="page2">
+    <span>CON-SITES</span>
+  </a>
+  <a href="satellites.html" class="nav-item" data-page="page3">
+    <span>SATELLITE</span>
+  </a>
+  <a href="suntracker.html" class="nav-item" data-page="page4">
+    <span>SunTracker</span>
+  </a>
+<a href="moontracker.html" class="nav-item" data-page="page5">
+    <span>MoonTracker</span>
+  </a>
+
+  <a href="../nasa/dashboard.html" class="nav-item" data-page="page6">
+    <span>NASA</span>
+  </a>
+<a href="sprinklers.html" class="nav-item" data-page="page7">
+    <span>Sprinkler</span>
+  </a>
+<a href="iot_tester.html" class="nav-item" data-page="page7">
+    <span>API END POINT</span>
+  </a>
+<a href="solar-calc.html" class="nav-item" data-page="page7">
+    <span>Solar CALC</span>
+  </a>
+
+
+</div>
+		<div class="top-section">
+            <div class="top-row-column-left">
+                <div class="clock-container">
+                    <div id="time">
+                        <div class="circle" style="--color: #0096FF">
+                            <div class="dots h_dot"></div>
+                            <svg>
+                                <circle cx="35" cy="35" r="35"></circle>
+                                <circle cx="35" cy="35" r="35" id="hh"></circle>
+                            </svg>
+                            <div id="hours">00</div>
+                        </div>
+                        <div class="circle" style="--color: #0096FF">
+                            <div class="dots m_dot"></div>
+                            <svg>
+                                <circle cx="35" cy="35" r="35"></circle>
+                                <circle cx="35" cy="35" r="35" id="mm"></circle>
+                            </svg>
+                            <div id="minutes">00</div>
+                        </div>
+                        <div class="circle" style="--color: #0096FF">
+                            <div class="dots s_dot"></div>
+                            <svg>
+                                <circle cx="35" cy="35" r="35"></circle>
+                                <circle cx="35" cy="35" r="35" id="ss"></circle>
+                            </svg>
+                            <div id="seconds">00</div>
+                        </div>
+                        <div class="ap">
+                            <div id="ampm">AM</div>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">Day/Night Progress (Texas)</div>
+                        <div class="progress-bar">
+                            <div class="night-segment" id="night"></div>
+                            <div class="day-segment" id="day"></div>
+                        </div>
+                        <div class="progress-info">
+                            <span id="night-text">Night</span>
+                            <span id="day-text">Day</span>
+                        </div>
+                    </div>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.js"></script>
+                <script src="js/clock.js"></script>
+            </div>
+
+            <div class="top-row-column-middle">
+                <div class="column-header">
+                </div>
+                <div class="space-weather-container compact">
+                    <div class="space-weather-header compact">
+                    </div>
+                    <div class="space-weather-grid compact">
+                        <div class="space-weather-row">
+                            <div class="space-weather-item">
+                                <span class="item-label">CME Speed </span>
+                                <span class="item-value" id="solar-wind-speed">-- km/s</span>
+                            </div>
+                            <div class="space-weather-item">
+                                <span class="item-label">CME Half Angle </span>
+                                <span class="item-value" id="solar-wind-density">N/A</span>
+                            </div>
+                        </div>
+                        
+                        <div class="space-weather-row">
+                            <div class="space-weather-item">
+                                <span class="item-label">KP Index:</span>
+                                <span class="item-value kp-value" id="kp-index">--</span>
+                            </div>
+                            <div class="space-weather-item">
+                                <span class="item-label">Aurora Potential (Kp Index)</span>
+                                <span class="item-value" id="aurora-activity">--%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="space-weather-row">
+                            <div class="space-weather-item">
+                                <span class="item-label">Solar Flare:</span>
+                                <span class="item-value flare-value" id="solar-flare-class">None</span>
+                            </div>
+                            <div class="space-weather-item">
+                                <span class="item-label">CME Solar Source Latitude</span>
+                                <span class="item-value" id="sunspot-count">--</span>
+                            </div>
+                        </div>
+                        
+                        <div class="space-weather-row">
+                            <div class="space-weather-item full-width">
+                                <span class="item-label">Geomagnetic:</span>
+                                <span class="item-value storm-value" id="geomagnetic-storm">Quiet</span>
+                            </div>
+                        </div>
+                        
+                        <div class="space-weather-row">
+                            <div class="aurora-bar-compact">
+                                <div class="aurora-progress-compact" id="aurora-bar-compact"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-weather-footer compact">
+                        <span class="status-indicator status-active"></span>
+                        Updated: <span id="last-updated">--</span>
+                    </div>
+                </div>
+                <script src="js/space-weather.js"></script>
+            </div>
+
+            <div class="top-row-column-right">
+                <div class="forecast-header">
+                </div>
+                <div class="forecast-container" id="weather-forecast">
+                    </div>
+            </div>
+        </div>
+<script src="js/forecast.js"></script>
+
+        <div class="bottom-section">
+            <div class="bottom-row-column-1">
+                <div class="column-header">
+                    <h2>NWS Alerts - Texas</h2>
+        <p>Hover over any alert below to see the full description.</p>
+                </div>
+                <div id="nws-alert-container"></div>
+                <script src="js/nws-alert.js"></script>
+            </div>
+
+            <div class="bottom-row-column-2">
+                <div class="column-header">
+                    <h2>Los Ebanos Texas</h2>
+                </div>
+                <div class="weather-data-container">
+                    <div class="data-row">
+                        <div class="data-icon-label">
+                            <img src="icons/temperature.svg" alt="Temperature" class="data-icon">
+                            <span class="data-label">Temperature:</span>
+                        </div>
+                        <span class="data-value" id="temperature-main">--</span>
+                    </div>
+                    <div class="data-row">
+                        <div class="data-icon-label">
+                            <img src="icons/feels-like.svg" alt="Feels Like" class="data-icon">
+                            <span class="data-label">Feels Like:</span>
+                        </div>
+                        <span class="data-value" id="feels-like">--</span>
+                    </div>
+                    <div class="data-row">
+                        <div class="data-icon-label">
+                            <img src="icons/humidity.svg" alt="Humidity" class="data-icon">
+                            <span class="data-label">Humidity:</span>
+                        </div>
+                        <span class="data-value" id="humidity">--</span>
+                    </div>
+                    <div class="data-row">
+                        <div class="data-icon-label">
+                            <img src="icons/pressure.svg" alt="Pressure" class="data-icon">
+                            <span class="data-label">Pressure:</span>
+                        </div>
+                        <span class="data-value" id="pressure">--</span>
+                    </div>
+                    <div class="data-row">
+                        <div class="data-icon-label">
+                            <img src="icons/wind.svg" alt="Wind Speed" class="data-icon">
+                            <span class="data-label">Wind Speed:</span>
+                        </div>
+                        <span class="data-value" id="wind-speed">--</span>
+                    </div>
+                    <div class="data-row">
+                        <div class="data-icon-label">
+                            <img src="icons/wind-direction.svg" alt="Wind Direction" class="data-icon">
+                            <span class="data-label">Wind Direction:</span>
+                        </div>
+                        <span class="data-value" id="wind-direction">--</span>
+                    </div>
+                    <div class="data-row">
+                        <div class="data-icon-label">
+                            <img src="icons/visibility.svg" alt="Visibility" class="data-icon">
+                            <span class="data-label">Visibility:</span>
+                        </div>
+                        <span class="data-value" id="visibility">--</span>
+                    </div>
+                    <div class="data-row">
+                        <div class="data-icon-label">
+                            <img src="icons/clouds.svg" alt="Cloudiness" class="data-icon">
+                            <span class="data-label">Cloudiness:</span>
+                        </div>
+                        <span class="data-value" id="cloudiness">--</span>
+                    </div>
+                    <div class="data-row">
+                        <div class="data-icon-label">
+                            <img src="icons/uv-index.svg" alt="UV Index" class="data-icon">
+                            <span class="data-label">UV Index:</span>
+                        </div>
+                        <span class="data-value" id="uv-index">--</span>
+                    </div>
+                    <div class="data-row">
+                        <div class="data-icon-label">
+                            <img src="icons/dew-point.svg" alt="Dew Point" class="data-icon">
+                            <span class="data-label">Dew Point:</span>
+                        </div>
+                        <span class="data-value" id="dew-point">--</span>
+                    </div>
+                    <div class="data-row">
+                        <div class="data-icon-label">
+                            <img src="icons/wind-gust.svg" alt="Wind Gust" class="data-icon">
+                            <span class="data-label">Wind Gust:</span>
+                        </div>
+                        <span class="data-value" id="wind-gust">--</span>
+                    </div>
+                    <div class="data-row">
+                        <div class="data-icon-label">
+                            <img src="icons/rain.svg" alt="Rain (1h)" class="data-icon">
+                            <span class="data-label">Rain (1h):</span>
+                        </div>
+                        <span class="data-value" id="rain-1h">--</span>
+                    </div>
+                   <div class="data-row">
+                    <div class="data-icon-label">
+                    <img src="icons/rain.svg" alt="Total Rain" class="data-icon">
+                    <span class="data-label">Total Rainfall:</span>
+                    </div>
+                    <span class="data-value" id="total-rainfall">--</span>
+                    </div>
+
+                    <div class="data-row">
+    <div class="data-icon-label">
+        <img src="icons/sun-intensity.svg" alt="Solar Radiation" class="data-icon">
+        <span class="data-label">Solar Radiation:</span>
+    </div>
+    <span class="data-value" id="solar-radiation">--</span>
+</div>
+
+		    <div class="data-row">
+                        <div class="data-icon-label">
+                            <img src="icons/snow.svg" alt="Snow" class="data-icon">
+                            <span class="data-label">Snow (1h):</span>
+                        </div>
+                        <span class="data-value" id="snow-1h">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-row-column-3">
+                <div class="column-header">
+                    <h2>Current Temperature</h2>
+                </div>
+                <br>
+                <div class="sun-times-container">
+                    <div class="sun-time" id="sunrise-time">
+                        <img id="sunriseIcon" src="icons/sunrise.svg" alt="Sunrise Icon">
+                        <span id="sunriseValue">--:--</span>
+                    </div>
+                    <div class="sun-time" id="sunset-time">
+                        <img id="sunsetIcon" src="icons/sunset.svg" alt="Sunset Icon">
+                        <span id="sunsetValue">--:--</span>
+                    </div>
+                </div>
+                <div class="description" id="description"></div>
+                <div class="weather-info">
+                    <img id="weatherIcon" src="icons/01d.svg" alt="Weather Icon">
+                </div>
+                <div class="temperature-display">
+                    <div class="temperature-container">
+                        <div class="temperature-text" id="temperature">88</div>
+                        <div class="degree-symbol" id="degreeSymbol">°</div>
+                    </div>
+                </div>
+
+		<center style="display: flex; justify-content: center; gap: 10px;">
+            <button id="startAnnouncerButton" class="action-button" style="margin-top: 20px; padding: 10px 20px; font-size: 1em; cursor: pointer; border: none; border-radius: 8px; background-color: #0096FF; color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Start Voice Announcer</button>
+            <button id="startEmailSchedulerButton" class="action-button" style="margin-top: 20px; padding: 10px 20px; font-size: 1em; cursor: pointer; border: none; border-radius: 8px; background-color: #0096FF; color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Start Weather Email Scheduler</button>
+        </center>
+
+<script>
+    // --- Configuration ---
+    // Standard announcement/scheduler interval is 30 minutes (used for recurrence after the first scheduled run)
+    const ANNOUNCEMENT_INTERVAL_MS = 1800000; 
+    const PHP_ENDPOINT_URL = 'send_email.php'; 
+    
+    // List of all weather metric IDs to save for the email report
+    const WEATHER_METRIC_IDS = [
+        'temperature-main', 'feels-like', 'humidity', 'pressure', 'wind-speed', 
+        'wind-direction', 'visibility', 'cloudiness', 'uv-index', 'dew-point', 
+        'wind-gust', 'rain-1h', 'total-rainfall', 'solar-radiation', 'snow-1h'
+    ];
+    
+    // --- NEW: CATCHY PHRASES for random selection ---
+    const CATCHY_PHRASES = [
+        "Your Atmospheric Briefing is here!",
+        "Let's check the Sky Report.",
+        "Time for your Weather Flash!",
+        "The Current Conditions Briefing."
+    ];
+
+    /**
+     * Helper function to get a random phrase from the list.
+     */
+    function getRandomCatchyPhrase() {
+        const randomIndex = Math.floor(Math.random() * CATCHY_PHRASES.length);
+        return CATCHY_PHRASES[randomIndex];
+    }
+    // ----------------------------
+
+    /**
+     * Speaks the given text using the browser's native Speech Synthesis API.
+     */
+    function speakNatively(textToSpeak) {
+        if (!('speechSynthesis' in window)) {
+            console.error("Browser does not support native Speech Synthesis.");
+            return;
+        }
+        
+        window.speechSynthesis.cancel(); 
+
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+        utterance.rate = 1.0; 
+        utterance.pitch = 1.0; 
+        
+        console.log("Starting native voice playback...");
+        window.speechSynthesis.speak(utterance);
+    }
+
+    /**
+     * Reads all key dashboard metrics for a comprehensive announcement, 
+     * including a rain warning if applicable.
+     * @returns {string | null} The generated phrase, or null if key elements are missing.
+     */
+    function readFullDashboardMetrics() {
+        const temp = document.getElementById('temperature')?.textContent?.trim() || 'unknown';
+        const humidity = document.getElementById('humidity')?.textContent?.trim() || 'unknown';
+        const windSpeed = document.getElementById('wind-speed')?.textContent?.trim() || 'unknown'; 
+        const pressure = document.getElementById('pressure')?.textContent?.trim() || 'unknown';
+        const dewPoint = document.getElementById('dew-point')?.textContent?.trim() || 'unknown'; 
+        const uvIndex = document.getElementById('uv-index')?.textContent?.trim() || 'zero'; 
+        const rain1hText = document.getElementById('rain-1h')?.textContent?.trim() || '--';
+
+        const rain1hValue = parseFloat(rain1hText.replace(/[^0-9.]/g, '')); 
+        let rainWarning = "";
+
+        if (!isNaN(rain1hValue) && rain1hValue > 0) {
+            rainWarning = "Maybe you should bring an umbrella with you! ";
+        }
+
+        if (temp === 'unknown' || temp === '--') {
+            console.warn("Critical element for announcement (#temperature) not found or empty. Cannot generate speech.");
+            return null;
+        }
+
+        // Use the random phrase here
+        let phrase = rainWarning + getRandomCatchyPhrase() + " "; 
+        phrase += `The current temperature is ${parseInt(temp)} degrees Fahrenheit, `;
+        
+        if (humidity !== 'unknown' && humidity !== '--') {
+            phrase += `Humidity is ${parseInt(humidity)} percent, `;
+        }
+        
+        if (windSpeed !== 'unknown' && windSpeed !== '--') {
+            const windValue = parseInt(windSpeed);
+            if (!isNaN(windValue)) {
+                phrase += `Wind speed is ${windValue} miles per hour, `;
+            }
+        }
+        
+        if (pressure !== 'unknown' && pressure !== '--') {
+            const pressureValue = parseFloat(pressure); 
+            if (!isNaN(pressureValue)) {
+                phrase += `Barometric pressure is ${pressureValue.toFixed(1)} hectopascals. `;
+            }
+        }
+        
+        if (dewPoint !== 'unknown' && dewPoint !== '--') {
+            const dewPointValue = parseInt(dewPoint);
+            if (!isNaN(dewPointValue)) {
+                phrase += `The Dew Point is ${dewPointValue} degrees. `;
+            }
+        }
+        
+        if (uvIndex !== 'zero' && uvIndex !== '--') {
+            const uvIndexValue = parseInt(uvIndex);
+            if (!isNaN(uvIndexValue)) {
+                phrase += `The UV Index is ${uvIndexValue}.`;
+            }
+        }
+        
+        return phrase;
+    }
+
+    /**
+     * Executes the full announcement sequence.
+     */
+    function announceDashboardMetrics() {
+        const phrase = readFullDashboardMetrics();
+        if (phrase) {
+            speakNatively(phrase); 
+        }
+    }
+
+    /**
+     * Calculates the time delay until the next nearest half-hour mark (:00 or :30).
+     * @returns {number} Delay in milliseconds.
+     */
+    function calculateInitialDelay() {
+        const now = new Date();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+        const ms = now.getMilliseconds();
+
+        let targetMinutes;
+        
+        // Determine the next target (either :00 or :30)
+        if (minutes < 30) {
+            targetMinutes = 30; 
+        } else {
+            targetMinutes = 60; 
+        }
+
+        const minutesToWait = targetMinutes - minutes;
+        let delay = minutesToWait * 60 * 1000 - (seconds * 1000 + ms);
+
+        if (delay <= 0) {
+             delay += ANNOUNCEMENT_INTERVAL_MS; 
+        }
+        
+        return delay;
+    }
+
+
+    /**
+     * Starts the absolute time scheduler after a user interaction (button click).
+     */
+    function startAbsoluteScheduler() {
+        const button = document.getElementById('startAnnouncerButton');
+        
+        if (button) {
+            button.disabled = true;
+            button.textContent = 'Voice Scheduler Running...';
+            button.style.backgroundColor = '#4CAF50'; 
+            button.style.cursor = 'default';
+        }
+
+        const initialDelay = calculateInitialDelay();
+        
+        console.log(`Voice scheduler initialized. First announcement will align with the absolute clock in ${Math.ceil(initialDelay / 60000)} minutes.`);
+
+        setTimeout(() => {
+            announceDashboardMetrics();
+            setInterval(announceDashboardMetrics, ANNOUNCEMENT_INTERVAL_MS);
+            console.log("Regular 30-minute interval established for :00 and :30 marks.");
+        }, initialDelay);
+    }
+    
+    // ----------------------------------------------------------------------
+    // --- NEW WEATHER EMAIL SCHEDULER LOGIC --------------------------------
+    // ----------------------------------------------------------------------
+
+    /**
+     * Sends the current weather report via email API using data from localStorage.
+     */
+    function sendWeatherReportEmail() {
+        let weatherMetrics = {};
+        try {
+            // Retrieve all collected metrics from the ongoing monitor
+            const metricsJson = localStorage.getItem('dashboardWeatherMetrics');
+            if (metricsJson) {
+                weatherMetrics = JSON.parse(metricsJson);
+            }
+        } catch (e) {
+            console.error("Could not parse dashboardWeatherMetrics from localStorage:", e);
+        }
+        
+        // Define the payload for the PHP script
+        const payload = {
+            event_type: 'WEATHER_REPORT', // <-- CRITICAL FLAG for PHP
+            weather_report: weatherMetrics 
+        };
+        
+        fetch(PHP_ENDPOINT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            const now = new Date().toLocaleTimeString();
+            if (data.status === 'success') {
+                console.log(`[${now}] Weather Report Email Sent: SUCCESS!`);
+            } else {
+                console.error(`[${now}] Weather Report Email Sent: FAILED: ${data.message}`);
+            }
+        })
+        .catch(error => {
+            console.error('Weather Email Fetch/Server Error:', error);
+        });
+    }
+
+    /**
+     * Starts the absolute time scheduler for sending weather report emails.
+     */
+    function startWeatherEmailScheduler() {
+        const button = document.getElementById('startEmailSchedulerButton');
+        
+        if (button) {
+            button.disabled = true;
+            button.textContent = 'Email Scheduler Running...';
+            button.style.backgroundColor = '#307D33'; 
+            button.style.cursor = 'default';
+        }
+
+        const initialDelay = calculateInitialDelay();
+        
+        console.log(`Email scheduler initialized. First weather report email will send in ${Math.ceil(initialDelay / 60000)} minutes at the next :00 or :30 mark.`);
+
+        // Set a timeout for the first email
+        setTimeout(() => {
+            sendWeatherReportEmail();
+            
+            // Start the regular 30-minute interval immediately after the first email
+            setInterval(sendWeatherReportEmail, ANNOUNCEMENT_INTERVAL_MS);
+            
+            console.log("Regular 30-minute email interval established.");
+        }, initialDelay);
+    }
+
+
+    /**
+     * Continuously monitors and saves all weather metrics to localStorage 
+     * for use by both the Sprinkler page and the Email Scheduler.
+     */
+    function monitorAndSaveWeatherMetrics() {
+        let allMetrics = {};
+        let dataFound = false;
+        
+        for (const id of WEATHER_METRIC_IDS) {
+            const element = document.getElementById(id);
+            const labelElement = element ? element.parentElement.querySelector('.data-label') : null;
+            
+            const value = element ? element.textContent.trim() : '--';
+            const label = labelElement ? labelElement.textContent.trim().replace(/:$/, '') : id;
+            
+            if (value && value !== '--') {
+                allMetrics[label] = value;
+                dataFound = true;
+            } else {
+                allMetrics[label] = '--';
+            }
+        }
+        
+        // Also save the specific total rainfall metric for the sprinkler page
+        const totalRainfallValue = allMetrics['Total Rainfall'] || '--';
+        if (totalRainfallValue && totalRainfallValue !== '--') {
+            try {
+                localStorage.setItem('dashboardTotalRainfall', totalRainfallValue);
+            } catch (e) {
+                console.error('Error saving dashboardTotalRainfall to localStorage:', e);
+            }
+        }
+
+        // Save the comprehensive weather report
+        if (dataFound) {
+            try {
+                localStorage.setItem('dashboardWeatherMetrics', JSON.stringify(allMetrics));
+            } catch (e) {
+                console.error('Error saving dashboardWeatherMetrics to localStorage:', e);
+            }
+        }
+    }
+
+    // Start monitoring every 5 seconds (assuming weather data updates within this time)
+    setInterval(monitorAndSaveWeatherMetrics, 5000); 
+
+    
+    // Listen for the button click to start the scheduler (required by Autoplay Policy)
+    window.addEventListener('load', () => {
+        const announcerButton = document.getElementById('startAnnouncerButton');
+        if (announcerButton) {
+            announcerButton.addEventListener('click', startAbsoluteScheduler);
+        }
+        
+        const emailButton = document.getElementById('startEmailSchedulerButton');
+        if (emailButton) {
+            emailButton.addEventListener('click', startWeatherEmailScheduler);
+        }
+    });
+</script>
+
+
+
+		<br>
+                <div class="footer">
+                    <div class="digital-readout-bar" id="date-readout">
+                        <div class="readout-segment" id="dow-segment"></div>
+                        <div class="readout-segment" id="day-segment"></div>
+                        <div class="readout-segment" id="month-segment"></div>
+                        <div class="readout-segment" id="year-segment"></div>
+                    </div>
+                </div>
+            </div>
+
+
+           <script src="js/open-aqi.js"></script>
+           <script src="js/open-air.js"></script>
+	   <script src="js/dig-read.js"></script>
+
+
+            <div class="bottom-row-column-4">
+                <div class="column-header">
+                    <h2>Air Quality</h2>
+                </div>
+                <div class="air-quality-container">
+                    <div class="aqi-display">
+                        <div class="aqi-value" id="aqi-value">--</div>
+                        <div class="aqi-category" id="aqi-category">--</div>
+                    </div>
+                    <div class="pollutants-container">
+                        <div class="pollutant">
+                            <div class="pollutant-icon-label">
+                                <img src="icons/pm25.png" alt="PM2.5" class="pollutant-icon">
+                                <span class="pollutant-label">PM2.5:</span>
+                            </div>
+                            <span class="pollutant-value" id="pm25">--</span>
+                        </div>
+                        <div class="pollutant">
+                            <div class="pollutant-icon-label">
+                                <img src="icons/pm10.png" alt="PM10" class="pollutant-icon">
+                                <span class="pollutant-label">PM10:</span>
+                            </div>
+                            <span class="pollutant-value" id="pm10">--</span>
+                        </div>
+                        <div class="pollutant">
+                            <div class="pollutant-icon-label">
+                                <img src="icons/o3.png" alt="Ozone" class="pollutant-icon">
+                                <span class="pollutant-label">O3:</span>
+                            </div>
+                            <span class="pollutant-value" id="o3">--</span>
+                        </div>
+                        <div class="pollutant">
+                            <div class="pollutant-icon-label">
+                                <img src="icons/no2.png" alt="Nitrogen Dioxide" class="pollutant-icon">
+                                <span class="pollutant-label">NO2:</span>
+                            </div>
+                            <span class="pollutant-value" id="no2">--</span>
+                        </div>
+                        <div class="pollutant">
+                            <div class="pollutant-icon-label">
+                                <img src="icons/so2.png" alt="Sulfur Dioxide" class="pollutant-icon">
+                                <span class="pollutant-label">SO2:</span>
+                            </div>
+                            <span class="pollutant-value" id="so2">--</span>
+                        </div>
+                        <div class="pollutant">
+                            <div class="pollutant-icon-label">
+                                <img src="icons/co.png" alt="Carbon Monoxide" class="pollutant-icon">
+                                <span class="pollutant-label">CO:</span>
+                            </div>
+                            <span class="pollutant-value" id="co">--</span>
+                        </div>
+                    </div>
+                    <div class="health-message" id="health-message">
+                        Air quality data not available
+                    </div>
+		 <div class="air-quality-container">
+    <canvas id="aqiTrendChart" width="800" height="400"></canvas>
+</div>
+
+		</div>
+            </div>
+<script src="js/visual-crossing-rainfall.js"></script>
+            <div class="bottom-row-column-5">
+                <div class="column-header">
+                    <h2>Moon Phase</h2>
+                </div>
+                <div id="moon-phase-container"></div>
+<div class="solarsystem">
+        <canvas id="solarSystem"></canvas>
+    </div>
+    <script src="js/solarsystem.js"></script>
+</div>
+        </div>
+    </div>
+
+
+<div id="usgs-monitor" class="usgs-monitor">
+    <div class="usgs-header">
+        <span class="usgs-title">🌍 Texas USGS LIVE MONITOR</span>
+        <div class="usgs-time" id="usgs-time">Loading...</div>
+    </div>
+
+    <div class="usgs-content">
+        <div class="quake-section">
+            <div class="quake-count" id="quake-count">0 quakes</div>
+            <svg id="quake-map-icon" class="quake-map-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" title="Click to toggle quake map">
+                <path fill="#ffffff" d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 14a6 6 0 1 1 0-12 6 6 0 0 1 0 12z"/>
+                <circle fill="#ff7675" cx="10" cy="10" r="3"/>
+                <path fill="none" stroke="#ffffff" stroke-width="1.5" d="M10 2v2M10 16v2M2 10h2M16 10h2M4.3 4.3l1.4 1.4M14.3 14.3l1.4 1.4M4.3 15.7l1.4-1.4M14.3 5.7l1.4-1.4"/>
+            </svg>
+            <div id="quake-map-popup" class="quake-map-popup">
+                <div id="quake-map" class="quake-map"></div>
+                <button id="quake-map-close" class="quake-map-close">Close</button>
+            </div>
+            <div class="quake-info" id="quake-info">--</div>
+        </div>
+
+<div class="water-section">
+    <div class="river-status" id="river-status">Rivers: Normal</div>
+    <div class="river-env" id="river-env">Rain: -- in/hr | Wind: -- mph</div>
+    <div class="river-bars">
+        <div class="river-item">
+            <div class="river-name" id="river-name-0">Rio Grande: --°C | -- μS/cm</div>
+            <div class="river-bar" id="river-bar-0"></div>
+        </div>
+    </div>
+</div>
+	<div class="env-section">
+            <div class="alert-status" id="alert-status">Alerts: None</div>
+        </div>
+    </div>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/usgs.js"></script>
+<script src="js/usgs-flood-flow.js"></script>
+
+<script src="js/moon.js"></script>
+
+</body>
+</html>

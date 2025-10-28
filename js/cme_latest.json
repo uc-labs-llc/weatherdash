@@ -1,0 +1,26 @@
+{
+  "activity_id": "2025-10-27T14:36:00-CME-001",
+  "start_time": "2025-10-27T14:36Z",
+  "source_location": "S16W77",
+  "speed": 695.0,
+  "type": "C",
+  "latitude": -16.0,
+  "longitude": 77.0,
+  "half_angle": 11.0,
+  "note": "Narrow, jet-like CME firs seen to the SW by SOHO LASCO C2 beginning at 2025-10-27T14:36Z, as well as by SOHO LASCO C3, STEREO A COR2 and GOES CCOR-1 in later frames. The source of this event is a minor eruption from Active Region 14256 (S16W77) beginning at approx. 2025-10-27T14:17Z as seen by GOES SUVI and STEREO A EUVI 304, along with field line opening seen in GOES SUVI 195 in the same timeframe.",
+  "instruments": [
+    {
+      "displayName": "SOHO: LASCO/C2"
+    },
+    {
+      "displayName": "SOHO: LASCO/C3"
+    },
+    {
+      "displayName": "STEREO A: SECCHI/COR2"
+    },
+    {
+      "displayName": "GOES: CCOR-1"
+    }
+  ],
+  "fetch_time": "2025-10-27T15:00:05.871945"
+}

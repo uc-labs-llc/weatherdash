@@ -1,0 +1,53 @@
+/* Define custom CSS variables for our prefixed dark theme and UV colors */
+:root {
+    --uv-color-primary: #0f172a;    /* Dark Primary (slate-900) */
+    --uv-color-card: #1e293b;       /* Dark Card (slate-800) */
+    --uv-color-low: #4ade80;        /* UV Low (Green) */
+    --uv-color-moderate: #facc15;   /* UV Moderate (Yellow) */
+    --uv-color-high: #fb923c;       /* UV High (Orange) */
+    --uv-color-very-high: #f87171;  /* UV Very High (Red) */
+    --uv-color-extreme: #a78bfa;    /* UV Extreme (Violet) */
+}
+
+/* Base Body Styles (Prefix: uv-) */
+.uv-dark-primary {
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+
+	color: white;
+}
+.uv-full-height {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.uv-font-sans {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Main Content Card Styles (Prefix: uv-) */
+.uv-card-container {
+background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+}
+
+/* Utility classes for legend dots in the HTML (Prefix: uv-bg-) */
+.uv-bg-uv-low { background-color: var(--uv-color-low); }
+.uv-bg-uv-moderate { background-color: var(--uv-color-moderate); }
+.uv-bg-uv-high { background-color: var(--uv-color-high); }
+.uv-bg-uv-very-high { background-color: var(--uv-color-very-high); }
+.uv-bg-uv-extreme { background-color: var(--uv-color-extreme); }
+
+
+/* Chart Container Specific Styles (Prefix: uv-) */
+#uv-chart-container {
+    position: relative;
+    padding-bottom: 50px; /* Ensure space for x-axis labels */
+    /* Ensure the chart takes full width within the card */
+    width: 100%; 
+}
+/* Set a fixed aspect ratio for better look in dashboard context */
+#uv-bar-chart {
+    height: 400px;
+    width: 600px;
+}
+

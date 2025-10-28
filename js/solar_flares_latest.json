@@ -1,0 +1,11 @@
+{
+  "activity_id": "2025-10-20T05:10:00-FLR-001",
+  "start_time": "2025-10-20T05:10Z",
+  "peak_time": "2025-10-20T05:27Z",
+  "end_time": "2025-10-20T05:38Z",
+  "class_type": "M1.0",
+  "source_location": "N06W84",
+  "active_region": 14248,
+  "linked_events": null,
+  "fetch_time": "2025-10-27T15:00:06.777768"
+}

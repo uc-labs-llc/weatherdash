@@ -1,0 +1,236 @@
+<!-- solar-calc.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Power Estimator</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/irrigation.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/solar-calc.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.45/moment-timezone-with-data.min.js"></script>
+</head>
+<body class="bg-gray-800 flex items-center justify-center min-h-screen p-4">
+    <div class="container">
+        <div class="sidebar">
+            <img src="images/notb.png" alt="Logo" class="sidebar-logo">
+            <a href="index.html" class="nav-item" data-page="home">
+                <span>HOME</span>
+            </a>
+            <a href="con-sites.html" class="nav-item" data-page="page2">
+                <span>CON-SITES</span>
+            </a>
+            <a href="satellites.html" class="nav-item" data-page="page3">
+                <span>SATELLITE</span>
+            </a>
+            <a href="suntracker.html" class="nav-item" data-page="page4">
+                <span>SunTracker</span>
+            </a>
+            <a href="moontracker.html" class="nav-item" data-page="page5">
+                <span>MoonTracker</span>
+            </a>
+            <a href="irrigation.html" class="nav-item" data-page="page6">
+                <span>Irrigation</span>
+            </a>
+            <a href="iot_tester.html" class="nav-item" data-page="page7">
+                <span>API END POINT</span>
+            </a>
+            <a href="solar-calc.html" class="nav-item" data-page="page8">
+                <span>Solar CALC</span>
+            </a>
+        </div>
+
+        <div class="max-w-full w-full mx-auto mb-6">
+            <div id="info">
+                <h2>Solar Power Estimator</h2>
+                <div class="clock-container">
+                    <div id="time">
+                        <div class="circle" style="--color: #0096FF">
+                            <div class="dots h_dot"></div>
+                            <svg>
+                                <circle cx="35" cy="35" r="35"></circle>
+                                <circle cx="35" cy="35" r="35" id="hh"></circle>
+                            </svg>
+                            <div id="hours">00</div>
+                        </div>
+                        <div class="circle" style="--color: #0096FF">
+                            <div class="dots m_dot"></div>
+                            <svg>
+                                <circle cx="35" cy="35" r="35"></circle>
+                                <circle cx="35" cy="35" r="35" id="mm"></circle>
+                            </svg>
+                            <div id="minutes">00</div>
+                        </div>
+                        <div class="circle" style="--color: #0096FF">
+                            <div class="dots s_dot"></div>
+                            <svg>
+                                <circle cx="35" cy="35" r="35"></circle>
+                                <circle cx="35" cy="35" r="35" id="ss"></circle>
+                            </svg>
+                            <div id="seconds">00</div>
+                        </div>
+                        <div class="ap">
+                            <div id="ampm">AM</div>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">Day/Night Progress (Texas)</div>
+                        <div class="progress-bar">
+                            <div class="night-segment" id="night"></div>
+                            <div class="day-segment" id="day"></div>
+                        </div>
+                        <div class="progress-info">
+                            <span id="night-text">Night</span>
+                            <span id="day-text">Day</span>
+                        </div>
+                    </div>
+                </div>
+                <script src="js/clock.js"></script>
+            </div>
+        </div>
+
+	<br>
+        <div id="solar-app-container" class="solar-container-card">
+            <div class="main-two-column-layout">
+                <div id="left-panel">
+                    <div class="solar-data-header">
+                        <h1 class="solar-header-title">Hourly Solar Radiation & Power</h1>
+                        <form id="solarCalcForm" class="solar-input-form">
+                            <label for="calc-panels">Panels:</label><input type="text" inputmode="numeric" id="calc-panels" required value="10">
+                            <label for="calc-watts">Watts (STC):</label><input type="text" inputmode="numeric" id="calc-watts" required value="400">
+                            <label for="calc-latitude">Lat:</label><input type="text" inputmode="decimal" id="calc-latitude" required step="any" value="26.2434">
+                            <label for="calc-longitude">Lon:</label><input type="text" inputmode="decimal" id="calc-longitude" required step="any" value="-98.5617">
+                        </form>
+                        <div id="solar-location-display" class="solar-location-display">Loading...</div>
+                    </div>
+                    <div class="solar-status-panel">
+                        <span class="solar-status-label">Current Solar Radiation:</span>
+                        <span id="current-radiation-display" class="solar-current-radiation">-- W/m²</span>
+                    </div>
+                    <div class="solar-status-panel">
+                        <span class="solar-status-label">Current Temperature:</span>
+                        <span id="current-temperature-display" class="solar-current-radiation">-- °C</span>
+                    </div>
+                    <div class="solar-status-panel">
+                        <span class="solar-status-label">Estimated Power Output:</span>
+                        <span id="calculated-currentPower" class="solar-current-radiation">-- W</span>
+                    </div>
+                    <div class="solar-status-panel">
+                        <span class="solar-status-label">Optimal Annual Tilt:</span>
+                        <span id="calculated-bestAngle" class="solar-current-radiation">-- °</span>
+                    </div>
+                    <div class="solar-panel-specs-section">
+                        <h2 class="solar-panel-specs-title">Panel Specifications</h2>
+                        <form id="panelSpecsForm" class="panel-specs-form">
+                            <div class="form-row">
+                                <label for="panel-efficiency">Panel Efficiency (%):</label>
+                                <input type="number" id="panel-efficiency" min="1" max="100" step="0.1" value="20.5">
+                            </div>
+                            <div class="form-row">
+                                <label for="system-losses">System Losses (%):</label>
+                                <input type="number" id="system-losses" min="0" max="50" step="0.1" value="14">
+                            </div>
+                            <div class="form-row">
+                                <label for="panel-temp-coeff">Temp Coefficient (%/°C):</label>
+                                <input type="number" id="panel-temp-coeff" min="0" max="1" step="0.01" value="0.35">
+                            </div>
+                            <div class="form-row">
+                                <label for="ambient-temp">Ambient Temp (°C):</label>
+                                <input type="number" id="ambient-temp" min="-20" max="50" step="0.1" value="25">
+                                <button type="button" id="use-current-temp" class="temp-button">Use Current</button>
+                            </div>
+                            <div class="form-row">
+                                <label for="panel-area">Panel Area (m²):</label>
+                                <input type="number" id="panel-area" min="0.1" max="10" step="0.01" value="1.8">
+                            </div>
+                        </form>
+                        <div class="solar-status-panel">
+                            <span class="solar-status-label">True Power Output:</span>
+                            <span id="true-power-output" class="solar-current-radiation">-- W</span>
+                        </div>
+                    </div>
+                    <div class="solar-battery-charger">
+                        <h2 class="solar-panel-specs-title">Battery Charging Calculator</h2>
+                        <form id="batteryChargerForm" class="panel-specs-form">
+                            <div class="form-row">
+                                <label for="battery-capacity">Battery Capacity (kWh):</label>
+                                <input type="number" id="battery-capacity" min="1" max="100" step="0.1" value="10">
+                            </div>
+                            <div class="form-row">
+                                <label for="battery-voltage">Battery Voltage:</label>
+                                <select id="battery-voltage">
+                                    <option value="12">12V (Car/RV)</option>
+                                    <option value="24">24V (Small System)</option>
+                                    <option value="48" selected>48V (Home Solar)</option>
+                                    <option value="120">120V (AC System)</option>
+                                    <option value="240">240V (AC System)</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <label for="current-soc">Current Charge (%):</label>
+                                <input type="number" id="current-soc" min="0" max="100" value="20">
+                            </div>
+                            <div class="form-row">
+                                <label for="charge-efficiency">Charger Efficiency (%):</label>
+                                <input type="number" id="charge-efficiency" min="50" max="98" value="85">
+                            </div>
+                        </form>
+                        <div class="charging-results">
+                            <div class="solar-status-panel">
+                                <span class="solar-status-label">Available Solar Power:</span>
+                                <span id="available-solar-power" class="solar-current-radiation">-- W</span>
+                            </div>
+                            <div class="solar-status-panel">
+                                <span class="solar-status-label">Time to Full Charge:</span>
+                                <span id="time-to-full" class="solar-current-radiation">--</span>
+                            </div>
+                            <div class="solar-status-panel">
+                                <span class="solar-status-label">Charge Rate (0-100%):</span>
+                                <div class="progress1-bar-container">
+                                    <div class="progress1-bar">
+                                        <div class="progress-fill" id="charge-progress"></div>
+                                    </div>
+                                    <span id="charge-percentage">0%</span>
+                                </div>
+                            </div>
+                            <div class="solar-status-panel">
+                                <span class="solar-status-label">kWh Added Per Hour:</span>
+                                <span id="kwh-per-hour" class="solar-current-radiation">-- kWh</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="right-panel">
+                    <div class="solar-chart-container">
+                        <div class="solar-chart-title">Bar Chart: Hourly Magnitude (Watts)</div>
+                        <canvas id="bar-chart"></canvas>
+                    </div>
+                    <div class="solar-chart-container">
+                        <div class="solar-chart-title">Line Chart: Full Day Progression (Watts)</div>
+                        <canvas id="line-chart"></canvas>
+                    </div>
+                    <div class="solar-chart-container">
+                        <div class="solar-chart-title">True Power Output (Adjusted for Conditions)</div>
+                        <canvas id="true-power-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="solar-footer">
+                <span id="app-status">Initializing app...</span>
+                <span id="last-updated-time"></span>
+            </div>
+        </div>
+        <script src="js/clock.js"></script>
+        <script type="module" src="js/data-charts.js"></script>
+        <script type="module" src="js/power-calc.js"></script>
+        <script type="module" src="js/true-power-calc.js"></script>
+    </div>
+</body>
+</html>

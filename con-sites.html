@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contaminated Sites Dashboard</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js" />
+  <link rel="stylesheet" href="css/con-sites.css">
+  <link rel="stylesheet" href="css/styles.css">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <div class="sidebar">
+    <img src="images/notb.png" alt="Logo" class="sidebar-logo">
+<a href="index.html" class="nav-item" data-page="home">
+            <span>Home</span>
+<a href="index.html" class="nav-item" data-page="home">
+    <span>HOME</span>
+  </a>
+  <a href="con-sites.html" class="nav-item" data-page="page2">
+    <span>CON-SITES</span>
+  </a>
+  <a href="satellites.html" class="nav-item" data-page="page3">
+    <span>SATELLITE</span>
+  </a>
+  <a href="suntracker.html" class="nav-item" data-page="page4">
+    <span>SunTracker</span>
+  </a>
+<a href="moontracker.html" class="nav-item" data-page="page5">
+    <span>MoonTracker</span>
+  </a>
+<a href="irrigation.html" class="nav-item" data-page="page6">
+    <span>Irrigation</span>
+  </a>
+<a href="iot_tester.html" class="nav-item" data-page="page7">
+    <span>API END POINT</span>
+  </a>
+<a href="solar-calc.html" class="nav-item" data-page="page8">
+    <span>Solar CALC</span>
+  </a>
+
+  </div>
+  <div class="content">
+    <h1>Contaminated Sites Dashboard</h1>
+    <div class="dashboard-container">
+      <div class="filters">
+        <select id="state-filter">
+          <option value="">All States</option>
+          <option value="CA">California</option>
+          <option value="NY">New York</option>
+          <option value="TX">Texas</option>
+          <option value="FL">Florida</option>
+        </select>
+        <select id="program-filter">
+          <option value="">All Programs</option>
+          <option value="Superfund">Superfund</option>
+          <option value="Brownfields">Brownfields</option>
+        </select>
+        <select id="contaminant-filter">
+          <option value="">All Contaminants</option>
+          <option value="Lead">Lead</option>
+          <option value="PCBs">PCBs</option>
+          <option value="Petroleum">Petroleum</option>
+          <option value="Arsenic">Arsenic</option>
+        </select>
+        <select id="status-filter">
+          <option value="">All Statuses</option>
+          <option value="Active">Active</option>
+          <option value="Completed">Completed</option>
+        </select>
+        <select id="risk-filter">
+          <option value="">All Risk Levels</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+        <label><input type="checkbox" id="ej-filter"> Environmental Justice Areas</label>
+      </div>
+      <div class="kpi-container">
+        <div class="kpi-card">
+          <h3>Total Sites</h3>
+          <p id="total-sites">0</p>
+        </div>
+        <div class="kpi-card">
+          <h3>Active Cleanups</h3>
+          <p id="active-cleanups">0</p>
+        </div>
+        <div class="kpi-card">
+          <h3>Completed Cleanups</h3>
+          <p id="completed-cleanups">0</p>
+        </div>
+        <div class="kpi-card">
+          <h3>High-Risk Sites</h3>
+          <p id="high-risk-sites">0</p>
+        </div>
+        <div class="kpi-card">
+          <h3>Grant Funding ($M)</h3>
+          <p id="grant-funding">0</p>
+        </div>
+        <div class="kpi-card">
+          <h3>Jobs Created</h3>
+          <p id="jobs-created">0</p>
+        </div>
+      </div>
+      <div class="map-container">
+        <div id="map" style="height: 700px;"></div>
+        <button id="toggle-heatmap">Toggle Heatmap</button>
+      </div>
+      <div class="charts-container">
+        <div class="chart-card">
+          <h3>Contaminant Distribution</h3>
+          <canvas id="contaminant-chart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Program Distribution</h3>
+          <canvas id="program-chart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Cleanup Timeline</h3>
+          <canvas id="timeline-chart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Funding Flow</h3>
+          <canvas id="funding-chart"></canvas>
+        </div>
+      </div>
+      <div class="table-container">
+        <h3>Sites List</h3>
+        <input type="text" id="search-table" placeholder="Search sites...">
+        <table id="sites-table">
+          <thead>
+            <tr>
+              <th onclick="sortTable(0)">Site Name</th>
+              <th onclick="sortTable(1)">State</th>
+              <th onclick="sortTable(2)">Program</th>
+              <th onclick="sortTable(3)">Contaminants</th>
+              <th onclick="sortTable(4)">Status</th>
+              <th onclick="sortTable(5)">Risk Level</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+        <button id="export-csv">Export to CSV</button>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="js/con-site.js"></script>
+</body>
+</html>

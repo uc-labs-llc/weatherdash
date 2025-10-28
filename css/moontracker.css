@@ -1,0 +1,376 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Deep space background */
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+
+    color: #e8eaf6;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Info Box Styling */
+#info {
+    background: rgba(10, 20, 50, 0.85); /* Darker, slightly blue background */
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #4a69bd;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+max-width: 1600px; 
+    margin: 0 auto 20px;
+}
+
+#info h2 {
+    color: #90caf9; /* Light blue heading */
+    margin-bottom: 10px;
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+#status-message {
+    font-size: 1.1em;
+    color: #b3e5fc; /* Lighter color for current time */
+    font-weight: 500;
+}
+
+/* Canvas Styling */
+#moonCanvas {
+display: block;
+    background: url('../images/sky.jpg') no-repeat center center;
+    background-size: cover;
+    border-radius: 12px;
+     margin: 0 auto 20px;
+    width: 800px;
+    height: 600px;
+    min-width: 600px;
+    min-height: 450px;
+
+}
+
+/* Data Row Styling */
+.info-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(10, 20, 50, 0.7);
+    padding: 15px;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    border: 1px solid #4a69bd;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.moon-detail {
+    flex: 1;
+    text-align: center;
+    font-size: 1.1em;
+    color: #c5cae9;
+    padding: 0 5px;
+}
+
+.moon-detail strong {
+    color: #e8eaf6;
+    font-weight: 600;
+    display: block; /* Makes the label stack on small screens */
+    margin-bottom: 4px;
+}
+
+.moon-detail.status {
+    width: 100%;
+    text-align: center;
+    color: #ffee58;
+}
+
+/* Ensure the image doesn't get messed up if you remove inline styles */
+.moon-detail img {
+    /* Makes the image behave like a paragraph element */
+    display: block; 
+    /* This centers the block element itself within its parent (.moon-detail) */
+    margin: 0 auto; 
+    /* Remove any potentially conflicting inline style from JS */
+    vertical-align: initial !important; 
+}
+
+.moon-detail.error {
+    color: #ff8a80;
+    width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 650px) {
+    #moonCanvas {
+        width: 95%;
+        height: 400px;
+    }
+    
+    .info-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .moon-detail {
+        text-align: center;
+    }
+
+    .moon-detail strong {
+        display: inline; /* Put label back inline on very small screens if column stack is too tall */
+        margin-right: 5px;
+    }
+}
+
+
+/* Add to moontracker.css */
+
+/* Style for the Lunar Cycle Progress Bar container */
+.info-row.full-width {
+    display: block; /* Override flex for the progress bar container */
+    padding: 10px 15px;
+}
+
+#lunar-progress-bar {
+    width: 100%;
+    height: 15px;
+    background-color: #3f51b5; /* Dark blue background */
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+#lunar-progress-fill {
+    height: 100%;
+    background-color: #82b1ff; /* Light blue/glow color */
+    transition: width 0.8s ease-out;
+    border-radius: 8px 0 0 8px; /* Rounded only on the left */
+}
+
+.moon-cycle-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    color: #90caf9;
+    margin-top: 5px;
+}
+/* Main container for content area next to the fixed sidebar */
+        #main-content-grid {
+            /* This margin clears the space for the fixed sidebar on the left (e.g., 200px wide) */
+            margin-left: 50px; 
+            /* Adds padding around the entire main content area (clock and 3 columns) */
+            padding: 5px; 
+        }
+        
+        /* The top Los Ebanos / Clock block now sits naturally at the top */
+        #info {
+            padding-top: 0; 
+            padding-bottom: 30px; /* Space below the clock before the 3-column section */
+        }
+        
+        /* The 3-column grid container */
+        .moon-content-layout {
+            display: grid;
+            
+            /* ABSOLUTELY FIXED PIXEL SIZING FOR ALL COLUMNS */
+            grid-template-columns: 560px 940px 500px; 
+            
+            gap: 50px; /* Fixed pixel gap */
+            max-width: 2200px; 
+            
+            /* Simple centering */
+            margin: 0 auto; 
+            padding: 0; 
+            align-items: start; 
+        }
+        
+        /* Column 1 Container */
+        .info-rows {
+            display: block; 
+            width: 560px; /* Fixed width */
+            height: 500px;
+	    grid-column: 1 / 2; /* Place in the first column */
+        }
+
+	    /* Individual Info Row */
+	    .info-row {
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px;
+            margin-bottom: 10px; 
+            overflow: hidden; /* Contains children */
+        }
+
+        /* Elements inside the Info Row - NO PERCENTAGE SIZING */
+        .moon-detail {
+            display: inline-block;
+            /* FIXED PIXEL WIDTH */
+            width: 130px; 
+            box-sizing: border-box;
+            white-space: normal; 
+        }
+
+        /* Use 'contents' to let the children be placed by the parent grid */
+        .moon-viz-and-placeholder {
+            display: contents; 
+        }
+
+        /* Ensures the canvas fills its column space (Column 2) */
+        #moonCanvas {
+            width: 920px; /* Fixed width */
+            height: 650px; /* FIXED PIXEL HEIGHT */
+            grid-column: 2 / 3; /* Place in the second (center) column */
+        }
+        
+        /* The Moon Phase placeholder box (Column 3) */
+        .placeholder-box {
+            width: 540px; /* Fixed width */
+            height: 500px; /* FIXED PIXEL HEIGHT */
+            padding: 0px;
+            border: 0px dashed #0096FF;
+            background-color: ;
+            color: ;
+            text-align: center;
+            grid-column: 3 / 4; /* Place in the third (right) column */
+        }
+       
+.details-container {
+            background-color: #1c2e40;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid #3a5068;
+        }
+
+        h1 {
+            color: #7fffd4;
+            text-align: center;
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+
+        h2 {
+            color: #a8dadc;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.1em;
+            font-weight: 400;
+        }
+
+        .result-item1 {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #3a5068;
+        }
+
+        .result-item1:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #a8dadc;
+        }
+
+        .value {
+            color: #e6f7ff;
+            font-size: 1.1em;
+            text-align: right;
+        }
+
+        .note {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #6a8ba6;
+            text-align: center;
+        }
+.cycle-container {
+            background-color: #1c2e40;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid #3a5068;
+        }
+
+        h1 {
+            color: #7fffd4;
+            text-align: center;
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+
+        h2 {
+            color: #a8dadc;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.1em;
+            font-weight: 400;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #3a5068;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #a8dadc;
+        }
+
+        .value {
+            color: #e6f7ff;
+            font-size: 1.1em;
+            text-align: right;
+        }
+
+        .note {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #6a8ba6;
+            text-align: center;
+        }
+
+        progress {
+            width: 100%;
+            height: 10px;
+            background-color: #3a5068;
+            border-radius: 5px;
+        }
+        progress::-webkit-progress-bar {
+            background-color: #3a5068;
+            border-radius: 5px;
+        }
+        progress::-webkit-progress-value {
+            background-color: #7fffd4;
+            border-radius: 5px;
+        }
+        progress::-moz-progress-bar {
+            background-color: #7fffd4;
+            border-radius: 5px;
+        }

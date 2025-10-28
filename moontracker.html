@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Moon Tracker</title>
+
+    <link rel="stylesheet" href="css/moontracker.css">
+    <link rel="stylesheet"href="css/styles.css">
+   <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+          <img src="images/notb.png" alt="Logo" class="sidebar-logo">
+<a href="index.html" class="nav-item" data-page="home">
+    <span>HOME</span>
+  </a>
+  <a href="con-sites.html" class="nav-item" data-page="page2">
+    <span>CON-SITES</span>
+  </a>
+  <a href="satellites.html" class="nav-item" data-page="page3">
+    <span>SATELLITE</span>
+  </a>
+  <a href="suntracker.html" class="nav-item" data-page="page4">
+    <span>SunTracker</span>
+  </a>
+<a href="moontracker.html" class="nav-item" data-page="page5">
+    <span>MoonTracker</span>
+  </a>
+<a href="irrigation.html" class="nav-item" data-page="page6">
+    <span>Irrigation</span>
+  </a>
+<a href="iot_tester.html" class="nav-item" data-page="page7">
+    <span>API END POINT</span>
+  </a>
+<a href="solar-calc.html" class="nav-item" data-page="page8">
+    <span>Solar CALC</span>
+  </a>
+
+
+	</div>
+    </div> 
+
+    <div id="main-content-grid">
+        
+        <div id="info">
+		<h2> Moon Tracker</h2>
+		<div class="clock-container">
+                <div id="time">
+                    <div class="circle" style="--color: #0096FF">
+                        <div class="dots h_dot"></div>
+                        <svg>
+                            <circle cx="35" cy="35" r="35"></circle>
+                            <circle cx="35" cy="35" r="35" id="hh"></circle>
+                        </svg>
+                        <div id="hours">00</div>
+                    </div>
+                    <div class="circle" style="--color: #0096FF">
+                        <div class="dots m_dot"></div>
+                        <svg>
+                            <circle cx="35" cy="35" r="35"></circle>
+                            <circle cx="35" cy="35" r="35" id="mm"></circle>
+                        </svg>
+                        <div id="minutes">00</div>
+                    </div>
+                    <div class="circle" style="--color: #0096FF">
+                        <div class="dots s_dot"></div>
+                        <svg>
+                            <circle cx="35" cy="35" r="35"></circle>
+                            <circle cx="35" cy="35" r="35" id="ss"></circle>
+                        </svg>
+                        <div id="seconds">00</div>
+                    </div>
+                    <div class="ap">
+                        <div id="ampm">AM</div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-label">Day/Night Progress (Texas)</div>
+                    <div class="progress-bar">
+                        <div class="night-segment" id="night"></div>
+                        <div class="day-segment" id="day"></div>
+                    </div>
+                    <div class="progress-info">
+                        <span id="night-text">Night</span>
+                        <span id="day-text">Day</span>
+                    </div>
+                </div>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.js"></script>
+            <script src="js/clock.js"></script>
+        </div>
+
+
+
+
+        <div class="moon-content-layout"> 
+            
+           <div class="cycle-container">
+    <h1>Lunar Cycle Status 🌙</h1>
+    <h2>Location: Los Ebanos, Texas (26.24° N, -98.56° W)</h2>
+
+    <div class="result-item">
+        <span class="label">Date Calculation:</span>
+        <span class="value" id="currentDate"></span>
+    </div>
+    
+    <div class="result-item">
+        <span class="label">Moon's Age:</span>
+        <span class="value" id="moonAge"></span>
+    </div>
+
+    <div class="result-item">
+        <span class="label">Lunar Cycle Progress:</span>
+        <span class="value" id="lunarProgressText"></span>
+    </div>
+    <progress id="lunarProgress" value="0" max="100"></progress>
+
+    <div class="result-item">
+        <span class="label">Next Full Moon:</span>
+        <span class="value" id="nextFullMoon"></span>
+    </div>
+
+    <div class="result-item">
+        <span class="label">Next New Moon:</span>
+        <span class="value" id="nextNewMoon"></span>
+    </div>
+
+    <p class="note">
+        Calculations use your specified coordinates and the **SunCalc** library.
+    </p>
+</div>
+ 
+            <div class="moon-viz-and-placeholder">
+                <canvas id="moonCanvas"></canvas>
+	    </div> 
+                <div class="placeholder-box">
+        <div class="details-container">
+    <h1>Detailed Moon Data 🔭</h1>
+    <h2>Location: Los Ebanos, Texas (26.24° N, -98.56° W)</h2>
+
+    <div class="result-item1">
+        <span class="label">Date Calculation:</span>
+        <span class="value" id="currentDate1"></span>
+    </div>
+
+    <div class="result-item1">
+        <span class="label">Moonrise (Local Time):</span>
+        <span class="value" id="moonrise"></span>
+    </div>
+
+    <div class="result-item1">
+        <span class="label">Moonset (Local Time):</span>
+        <span class="value" id="moonset"></span>
+    </div>
+    
+    <div class="result-item1">
+        <span class="label">Phase (Description):</span>
+        <span class="value" id="phase"></span>
+    </div>
+
+    <div class="result-item1">
+        <span class="label">Illumination:</span>
+        <span class="value" id="illumination"></span>
+    </div>
+    
+    <div class="result-item1">
+        <span class="label">Altitude (Current Height):</span>
+        <span class="value" id="altitude"></span>
+    </div>
+
+    <div class="result-item1">
+        <span class="label">Azimuth (Current Direction):</span>
+        <span class="value" id="azimuth"></span>
+    </div>
+
+    <p class="note">
+        Moonrise/Moonset are for today; Altitude/Azimuth are for the current moment.
+    </p>
+</div>
+		</div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.45/moment-timezone-with-data.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.min.js"></script>
+    
+<script src="js/moon.js"></script>
+<script src="js/moon-cycle.js"></script>
+ 
+<script src="js/moon-details.js"></script>
+    <script type="module" src="js/moontracker.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+/* Custom styles for the dark theme and layout */
+.solar-body {
+    font-family: 'Inter', sans-serif;
+    background: #1a1a2e; /* Dark background */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .5rem;
+    margin: 0;
+    color: #fff;
+}
+
+/* Container styles */
+.solar-container-card {
+    background: #16213e; /* Slightly lighter dark background for card */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    max-width: 900px;
+    width: 95%;
+    border-radius: 0.75rem;
+    padding: .5rem;
+}
+
+/* Header styles */
+.solar-data-header {
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.solar-header-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.05em;
+}
+
+.solar-location-display {
+    font-size: 0.875rem;
+    color: #9ca3af;
+}
+
+/* Current status panel */
+.solar-status-panel {
+    background-color: #1a2035;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.solar-status-label {
+    color: #d1d5db;
+    font-weight: 500;
+}
+
+.solar-current-radiation {
+    font-size: 1.875rem;
+    font-weight: 800;
+    color: #f39c12; /* Orange color for radiation value */
+}
+
+/* Chart containers */
+.solar-chart-container {
+    max-height: 400px; 
+    background-color: #1a2035;
+    padding: .5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    margin-bottom: 1.5rem; /* Space between charts */
+}
+
+#solar-line-chart, #solar-bar-chart {
+    max-height: 300px; 
+}
+
+.solar-chart-title {
+    color: #ccc;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+/* Footer */
+.solar-footer {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: #6b7280;
+    display: flex;
+    justify-content: space-between;
+}
+
+.solar-error {
+    color: #ef4444;
+}

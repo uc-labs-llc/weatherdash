@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sun Tracker</title>
+    <link rel="stylesheet"href="css/styles.css">
+    <link rel="stylesheet" href="css/suntracker.css">
+    <link rel="stylesheet" href="css/uv_chart_styles.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.45/moment-timezone-with-data.min.js"></script>
+
+
+</head>
+<body>
+    <div class="sidebar">
+  <img src="images/notb.png" alt="Logo" class="sidebar-logo">
+<a href="index.html" class="nav-item" data-page="home">
+            <span>Home</span>
+<a href="index.html" class="nav-item" data-page="home">
+    <span>HOME</span>
+  </a>
+  <a href="con-sites.html" class="nav-item" data-page="page2">
+    <span>CON-SITES</span>
+  </a>
+  <a href="satellites.html" class="nav-item" data-page="page3">
+    <span>SATELLITE</span>
+  </a>
+  <a href="suntracker.html" class="nav-item" data-page="page4">
+    <span>SunTracker</span>
+  </a>
+<a href="moontracker.html" class="nav-item" data-page="page5">
+    <span>MoonTracker</span>
+  </a>
+<a href="irrigation.html" class="nav-item" data-page="page6">
+    <span>Irrigation</span>
+  </a>
+<a href="iot_tester.html" class="nav-item" data-page="page7">
+    <span>API END POINT</span>
+  </a>
+<a href="solar-calc.html" class="nav-item" data-page="page8">
+    <span>Solar CALC</span>
+  </a>
+
+    </div>
+
+
+ <div id="main-content-grid">
+
+        <div id="info">
+            <h5>Sun Tracker</h5>
+            <div class="clock-container">
+                <div id="time">
+                    <div class="circle" style="--color: #0096FF">
+                        <div class="dots h_dot"></div>
+                        <svg>
+                            <circle cx="35" cy="35" r="35"></circle>
+                            <circle cx="35" cy="35" r="35" id="hh"></circle>
+                        </svg>
+                        <div id="hours">00</div>
+                    </div>
+                    <div class="circle" style="--color: #0096FF">
+                        <div class="dots m_dot"></div>
+                        <svg>
+                            <circle cx="35" cy="35" r="35"></circle>
+                            <circle cx="35" cy="35" r="35" id="mm"></circle>
+                        </svg>
+                        <div id="minutes">00</div>
+                    </div>
+                    <div class="circle" style="--color: #0096FF">
+                        <div class="dots s_dot"></div>
+                        <svg>
+                            <circle cx="35" cy="35" r="35"></circle>
+                            <circle cx="35" cy="35" r="35" id="ss"></circle>
+                        </svg>
+                        <div id="seconds">00</div>
+                    </div>
+                    <div class="ap">
+                        <div id="ampm">AM</div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-label">Day/Night Progress (Texas)</div>
+                    <div class="progress-bar">
+                        <div class="night-segment" id="night"></div>
+                        <div class="day-segment" id="day"></div>
+                    </div>
+                    <div class="progress-info">
+                        <span id="night-text">Night</span>
+                        <span id="day-text">Day</span>
+                    </div>
+                </div>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.js"></script>
+            <script src="js/clock.js"></script>
+        </div>
+    </script>
+
+    <div class="main-grid-container">
+    <!-- Left Column - Sun Tracker -->
+    <div class="sun-tracker-column">
+        <div class="main-content">
+            <canvas id="sunCanvas"></canvas>
+        </div>
+        <div id="info1">
+            <!-- New rows for horizontal layout -->
+            <div id="sun-time-row">
+                <!-- Data will be inserted here by JavaScript -->
+            </div>
+            <div id="lat-lon-row">
+                <!-- Data will be inserted here by JavaScript -->
+            </div>
+        <p id="status-message">Loading Sun Data...</p>
+
+	</div>
+    <!-- Main Container Card (Prefixed) -->
+    <div class="uv-card-container w-full max-w-4xl mx-auto p-6 md:p-10 bg-uv-dark-card shadow-2xl rounded-xl">
+        
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-light blue-400">Hourly UV Index Forecast</h1>
+            <p id="uv-location-info" class="text-lg text-white-400 mt-2">Loading location and date...</p>
+        </header>
+
+        <!-- Loading/Error Message Area (Prefixed ID) -->
+        <div id="uv-status-message" class="text-center text-xl text-yellow-400 p-4">
+            Loading UV data...
+        </div>
+
+        <!-- Chart Canvas Container (Prefixed ID) -->
+        <div id="uv-chart-container" class="hidden">
+            <canvas id="uv-bar-chart"></canvas>
+        </div>
+        
+        <footer class="mt-8 text-center text-sm text-slate-500">
+            <p>UV Index Categories & Colors (EPA Standard)</p>
+            <div class="flex flex-wrap justify-center gap-3 mt-2">
+                <span class="flex items-center"><span class="w-3 h-3 rounded-full uv-bg-uv-low mr-1"></span>Low (0-2)</span>
+                <span class="flex items-center"><span class="w-3 h-3 rounded-full uv-bg-uv-moderate mr-1"></span>Moderate (3-5)</span>
+                <span class="flex items-center"><span class="w-3 h-3 rounded-full uv-bg-uv-high mr-1"></span>High (6-7)</span>
+                <span class="flex items-center"><span class="w-3 h-3 rounded-full uv-bg-uv-very-high mr-1"></span>Very High (8-10)</span>
+                <span class="flex items-center"><span class="w-3 h-3 rounded-full uv-bg-uv-extreme mr-1"></span>Extreme (11+)</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="js/uv_chart_script.js"></script>
+<link rel="stylesheet" href="css/solar.css">
+<div id="solar-app-container" class="solar-container-card">
+
+        <div class="solar-data-header">
+            <h1 class="solar-header-title">Hourly Solar Radiation</h1>
+            <div id="solar-location-display" class="solar-location-display">Loading...</div>
+        </div>
+
+        <!-- Current Status Panel -->
+        <div class="solar-status-panel">
+            <span class="solar-status-label">Current Solar Radiation:</span>
+            <span id="solar-current-radiation" class="solar-current-radiation">-- W/m²</span>
+        </div>
+
+        <!-- BAR Chart Container (Hourly Comparison) - NOW ON TOP -->
+        <div class="solar-chart-container">
+            <div class="solar-chart-title">Bar Chart: Hourly Magnitude</div>
+            <canvas id="solar-bar-chart"></canvas>
+        </div>
+
+        <!-- Line Chart Container (Full Day Progression) - NOW ON BOTTOM -->
+        <div class="solar-chart-container">
+            <div class="solar-chart-title">Line Chart: Full Day Progression</div>
+            <canvas id="solar-line-chart"></canvas>
+        </div>
+
+        <!-- Footer / Last Updated -->
+        <div class="solar-footer">
+            <span id="solar-update-status">Fetching hourly forecast...</span>
+            <span id="solar-last-updated-time"></span>
+        </div>
+    </div>
+
+    <!-- Load our external JavaScript file -->
+    <script src="js/solar.js"></script>
+
+    </div>
+
+        <!-- Right Column - 6 Information Panels -->
+        <div class="info-columns">
+            <!-- Panel 1: CME Data -->
+            <div class="info-panel" id="cme-panel">
+                <div class="widget-header">
+                    <span class="widget-icon">🌞</span>
+                    <h3 class="widget-title">Coronal Mass Ejection</h3>
+                </div>
+                <div class="widget-content loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading CME data...</p>
+                </div>
+            </div>
+            
+            <!-- Panel 2: Solar Flares -->
+            <div class="info-panel" id="solar-flares-panel">
+                <div class="widget-header">
+                    <span class="widget-icon">🔥</span>
+                    <h3 class="widget-title">Solar Flares</h3>
+                </div>
+                <div class="widget-content loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading flare data...</p>
+                </div>
+            </div>
+            
+            <!-- Panel 3: Geomagnetic Storms -->
+            <div class="info-panel" id="geomagnetic-storms-panel">
+                <div class="widget-header">
+                    <span class="widget-icon">🌌</span>
+                    <h3 class="widget-title">Geomagnetic Storms</h3>
+                </div>
+                <div class="widget-content loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading storm data...</p>
+                </div>
+            </div>
+            
+            
+            
+        </div>
+    </div>
+    
+    <!-- All JavaScript files -->
+    <script type="module"src="js/suntracker.js"></script>
+    <script src="js/cme-data.js"></script>
+    <script src="js/solar-flares.js"></script>
+    <script src="js/geomagnetic-storms.js"></script>
+</body>
+</html>

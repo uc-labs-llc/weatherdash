@@ -1,0 +1,280 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    /* Deep space background from moontracker.css */
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    /* Text color from moontracker.css */
+    color: #e8eaf6;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+#info1 {
+	text-align: center;
+}
+#info1 h2 {
+    font-size: 18px;
+    margin: 0 0 10px;
+    color: #FFFFFF;
+}
+
+#info1 p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #FFFFFF;
+}
+
+#info1 .error {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+#info1 .status {
+    color: #666;
+}
+
+
+/* Main Layout */
+.main-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    /* Background from moontracker.css */
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    gap: 10px;
+    min-height: 100vh;
+    padding: 5px;
+    /* -------------------------------------------------------------------------- */
+    /* NEW: Constrain the width and center the entire grid, overriding the 2400px parent width */
+    max-width: 2000px; /* Use a max width that suits your design, e.g., 1200px or 1400px */
+    margin: 0 auto; /* This is the key to centering the grid */
+    /* -------------------------------------------------------------------------- */
+}
+
+/* Left Column - Sun Tracker */
+.sun-tracker-column {
+    display: flex;
+    flex-direction: column;
+    /* Background from moontracker.css */
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 12px;
+    padding: 0.5px;
+    align-items: center;
+}
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    /* Background from moontracker.css */
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#sunCanvas {
+    display: block;
+    background: url('../images/sky.jpg') no-repeat center center;
+    background-size: cover;
+    border-radius: 12px;
+    width: 800px;
+    height: 550px;
+    min-width: 600px;
+    min-height: 450px;
+}
+
+#sunCanvas.fallback {
+    /* Keeping the original fallback for visual distinction (sky/ground colors) or use a deep space blue */
+    background: linear-gradient(to bottom, #005d9d 50%, #228b22 75%, #32cd32 100%);
+}
+
+/* Info Box Styling - #info from moontracker.css */
+
+#info {
+    text-align: center;
+    background: rgba(30, 30, 46, 0.9);
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid #555;
+}
+
+#info h5 {
+    font-size: 24px;
+    margin: 0 0 10px;
+    color: #FFFFFF;
+}
+
+#info p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #FFFFFF;
+}
+
+#info .error {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+#info .status {
+    color: #666;
+}
+
+
+/* Right Column - Info Panels */
+.info-columns {
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    gap: 10px;
+}
+
+.info-panel {
+    /* Darker, slightly blue background (from moontracker.css #info, adjusted slightly for contrast) */
+    background: rgba(10, 20, 50, 0.7);
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    min-height: 80px;
+    max-height: none;
+    /* Using the moontracker info-row border */
+    border: 1px solid #4a69bd;
+}
+
+/* Widget Header */
+.widget-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    padding: 8px;
+    /* Separator line color */
+    border-bottom: 1px solid #3a5068;
+    /* Using moontracker's general info background */
+    background: rgba(10, 20, 50, 0.9);
+    /* Using moontracker's border color */
+    border: 1px solid #4a69bd;
+    border-radius: 6px;
+}
+
+.widget-icon {
+    font-size: 1em;
+}
+
+.widget-title {
+    margin: 0;
+    /* Using the light blue heading color from moontracker.css */
+    color: #90caf9;
+    font-size: 14px;
+}
+
+.widget-content {
+    min-height: 40px;
+    font-size: 12px;
+}
+
+/* Loading States - Compact */
+.widget-content.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    /* Dimmed color for loading text */
+    color: #c5cae9;
+    font-size: 11px;
+}
+
+.loading-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #3f51b5; /* Dark blue background of progress bar in moontracker */
+    border-top: 2px solid #82b1ff; /* Light blue progress fill color in moontracker */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 5px;
+}
+
+/* Data Display - Compact */
+.basic-info {
+    margin-bottom: 5px;
+}
+
+.data-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 2px 0;
+    font-size: 11px;
+}
+
+.data-label {
+    /* Using the light blue heading color from moontracker.css for labels */
+    color: #90caf9;
+    font-weight: 600;
+}
+
+.data-value {
+    /* Using the main text color from moontracker.css for values */
+    color: #e8eaf6;
+}
+
+.details-section {
+    margin: 5px 0;
+    padding: 4px;
+    /* Darker, slightly blue background (from moontracker.css info-row) */
+    background: rgba(10, 20, 50, 0.7);
+    border-radius: 3px;
+    /* Using the moontracker border color, but translucent */
+    border: 1px solid rgba(74, 105, 189, 0.5);
+    font-size: 10px;
+}
+
+/* Widget Footer - Compact */
+.widget-footer {
+    margin-top: 8px;
+    padding-top: 5px;
+    /* Separator line color (from widget-header) */
+    border-top: 1px solid #3a5068;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.last-updated {
+    font-size: 9px;
+    /* Dimmed color for time */
+    color: #c5cae9;
+}
+
+.refresh-btn {
+    /* Using the light blue fill color from moontracker.css progress bar */
+    background: #82b1ff;
+    color: #16213e; /* Dark text for contrast */
+    border: none;
+    padding: 3px 6px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 9px;
+    transition: background 0.3s;
+}
+
+.refresh-btn:hover {
+    background: #90caf9; /* A slightly lighter shade */
+}
+
+/* Main container for content area next to the fixed sidebar */
+        #main-content-grid {
+            /* Fix from previous steps to remove unwanted left margin */
+	    max-width: 2000px; 
+    margin: 0 auto 20px; 
+            /* Adds padding around the entire main content area (clock and 3 columns) */
+            padding: 25px;
+        }
+
+        /* The top Los Ebanos / Clock block now sits naturally at the top */
+        #info1 {
+            padding-top: 0;
+            padding-bottom: 30px; /* Space below the clock before the 3-column section */
+        }
