@@ -212,16 +212,20 @@
         </p>
     </div>
 
-    <script>
+    <script type="module">
+        // 1. IMPORT: Fetch the necessary constants from the separate file
+        import { OWM_API_KEY, OWM_LAT, OWM_LON, OWM_URL } from './api-key.js';
+
         // --- CONFIGURATION ---
         
-        // OpenWeatherMap Configuration for Los Ebanos, Texas
-        const OPENWEATHER_API_KEY = '';
-        const OPENWEATHER_LAT = 26.2440;
-        const OPENWEATHER_LON = -98.5553;
+        // OpenWeatherMap Configuration: Now uses values imported from api-key.js
+        const OPENWEATHER_API_KEY = OWM_API_KEY;
+        const OPENWEATHER_LAT = OWM_LAT;
+        const OPENWEATHER_LON = OWM_LON;
         const UNITS = 'imperial'; 
 
-        const WEATHER_API_URL = `https://api.openweathermap.org/data/2.5/weather?lat=${OPENWEATHER_LAT}&lon=${OPENWEATHER_LON}&units=${UNITS}&appid=${OPENWEATHER_API_KEY}`;
+        // 2. URL CONSTRUCTION: Use the imported base URL (OWM_URL) and coordinates/key
+        const WEATHER_API_URL = `${OWM_URL}?lat=${OPENWEATHER_LAT}&lon=${OPENWEATHER_LON}&units=${UNITS}&appid=${OPENWEATHER_API_KEY}`;
         
         // Mockoon/IoT API calls
         const BASE_URL = 'http://localhost:8080'; 
